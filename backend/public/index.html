@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Backend Test Page</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f7f7f7;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 16px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #output {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      white-space: pre-wrap;
+    }
+
+    .box {
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Simple Test Page</h1>
+  <p>This page is served from <b>http://localhost:5000/</b>.</p>
+
+  <div class="box">
+    <h3>Check Backend Status</h3>
+    <button onclick="checkHealth()">Check /health</button>
+    <div id="output">Click button to check server...</div>
+  </div>
+
+  <div class="box">
+    <h3>Test API: Get Courses</h3>
+    <button onclick="getCourses()">GET /api/courses</button>
+    <div id="coursesOutput">No data...</div>
+  </div>
+
+  <script>
+    const BASE = "http://localhost:5000";
+
+    // Check health
+    async function checkHealth() {
+      const out = document.getElementById("output");
+      out.textContent = "Loading...";
+
+      try {
+        const res = await fetch(`${BASE}/health`);
+        const json = await res.json();
+        out.textContent = JSON.stringify(json, null, 2);
+      } catch (err) {
+        out.textContent = "Error: " + err.message;
+      }
+    }
+
+    // Get Courses
+    async function getCourses() {
+      const out = document.getElementById("coursesOutput");
+      out.textContent = "Loading...";
+
+      try {
+        const res = await fetch(`${BASE}/api/courses`);
+        const data = await res.json();
+        out.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        out.textContent = "Error: " + err.message;
+      }
+    }
+  </script>
+
+</body>
+</html>
